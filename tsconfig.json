@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false
+  },
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "include": ["utils", "node_modules/karabiner.ts/dist/index.d.ts"]
+}

@@ -1,0 +1,4 @@
+.DS_Store
+node_modules
+my-config/test-output
+old/
