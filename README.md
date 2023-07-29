@@ -130,6 +130,11 @@ After your modifications are in place, you'll probably want to test them out. Us
 
 ```ts
 import path from 'path';
+import { Writer } from '../utils/writer';
+
+export const configWriter = new Writer();
+
+// ... make your modifications ...
 
 const testOutputPath = path.resolve(
   '.',
