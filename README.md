@@ -1,13 +1,13 @@
-# karabiner-configurator
+# karabiner-ts-multi-profile
 
 ## Why this repo?
 
 Building on what's provided by [karabiner.ts](https://github.com/evan-liu/karabiner.ts), I'm generating my [Karabiner-Elements](https://karabiner-elements.pqrs.org/) `karabiner.json` config programmatically. To fit my use cases, I added utilities to
 
 - create simple and function key modifications
-- add modifications to separate profiles and optionally devices within
+- add modifications to multiple profiles and optionally devices within
 
-`karabiner.ts` is fantastic. It provides concise wrappers and complete type-safety for all (?) possible keys and Karabiner features. I recommend it highly! Also check out [the other external Karabiner JSON generators](https://karabiner-elements.pqrs.org/docs/json/external-json-generators/).
+Concise wrappers and auto-completion thanks to the type-safety provided by `karabiner.ts` makes for a fantastic developer experience. Given that and it's high-level of parity with Karabiner features, I recommend it highly! Also check out [the other external Karabiner JSON generators](https://karabiner-elements.pqrs.org/docs/json/external-json-generators/).
 
 ## How to use
 
@@ -102,10 +102,10 @@ alterProfile(
 
 ### `toComplexProfile` and `toSimpleProfile`
 
-These functions are imported from `kts-wrappers.ts`.
+These functions are imported from `utils/kts-wrappers.ts`.
 
 - `toComplexProfile` is a light wrapper to build an array of complex rules.
-- `toSimpleProfile` has a little more going on. Since `simple_modifications` aren't provided out of the box with `karabiner.ts`, this function takes a single mod or array of mods, peels out all the complex properties ("description", "manipulators", "type", etc) that aren't needed in a simple modification, and returns an array of simple objects like what's shown below:
+- `toSimpleProfile` has a little more going on. Since `simple_modifications` aren't provided out of the box with `karabiner.ts`, this function takes a single mod or array of mods, peels out the unneeded complex properties ("description", "manipulators", "type", etc), and returns an array of simple objects like what's shown below:
 
 ```json
 [
@@ -119,6 +119,8 @@ These functions are imported from `kts-wrappers.ts`.
   }
 ]
 ```
+
+Note: There are limits on the capabilities of `simple_modifications`. Documentation is lacking on them, so proceed with caution.
 
 ### Writer
 

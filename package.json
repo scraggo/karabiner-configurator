@@ -1,10 +1,9 @@
 {
-  "name": "karabiner-configurator",
-  "description": "my Karabiner config with karabiner.ts",
+  "name": "karabiner-ts-multi-profile",
+  "description": "Karabiner multi-profile config built with karabiner.ts",
   "scripts": {
-    "test": "npm run test-kts && npm run test-config",
-    "test-kts": "ts-node utils/kts-wrappers.test.ts",
-    "test-config": "ts-node my-config/myconfig.test.ts",
+    "test": "ts-node my-config/myconfig.test.ts",
+    "test-lib": "ts-node utils/kts-wrappers.test.ts",
     "write": "ts-node my-config/index.ts"
   },
   "author": "scraggo.com",
