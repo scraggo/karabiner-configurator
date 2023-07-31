@@ -7,7 +7,11 @@ Building on what's provided by [karabiner.ts](https://github.com/evan-liu/karabi
 - create simple and function key modifications
 - add modifications to multiple profiles and optionally devices within
 
-Concise wrappers and auto-completion thanks to the type-safety provided by `karabiner.ts` makes for a fantastic developer experience. Given that and it's high-level of parity with Karabiner features, I recommend it highly! Also check out [the other external Karabiner JSON generators](https://karabiner-elements.pqrs.org/docs/json/external-json-generators/).
+[This post](https://www.scraggo.com/karabiner-ts-multi-profile/) goes more into my motivations for building this and has more general research on Karabiner-Elements.
+
+`karabiner.ts` deserves a shoutout for providing a fantastic developer experience. It allows you to concisely create modifications with auto-completion  thanks to very through TypeScript typings. Given that and it's high-level of parity with Karabiner features, I recommend it highly!
+
+Also check out [the other external Karabiner JSON generators](https://karabiner-elements.pqrs.org/docs/json/external-json-generators/).
 
 ## How to use
 

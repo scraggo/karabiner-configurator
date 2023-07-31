@@ -1,5 +1,7 @@
 # Notes on my config
 
+[This post](https://www.scraggo.com/karabiner-ts-multi-profile/) goes more into my motivations for building this and has more general research on Karabiner-Elements.
+
 ## Function Keys
 
 ### recommended usage
