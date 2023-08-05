@@ -1,13 +1,6 @@
-import {
-  layer,
-  map,
-  rule,
-  withMapper,
-  writeToProfile,
-  NumberKeyValue,
-} from 'karabiner.ts';
+import { rule } from 'karabiner.ts';
 
-type Builder = { build: (...any) => any };
+type Builder = { build: (arg?: any) => any };
 
 function wrapInRule(builder: Builder[]) {
   return rule('').manipulators(builder);
@@ -25,7 +18,7 @@ function wrapAndBuild(builder: Builder[]) {
  * Pull out unneeded properties
  * @param builder - (private) BasicManipulatorBuilder
  */
-export function toSimple(builder) {
+export function toSimple(builder: Builder[]) {
   return wrapAndBuild(builder).manipulators.map((manipulator) => {
     const { description, type, ...rest } = manipulator as any;
 
@@ -36,7 +29,7 @@ export function toSimple(builder) {
 
     // delete to modifiers if undefined
     if ('to' in rest) {
-      rest.to = rest.to.map((rawTo) => {
+      rest.to = rest.to.map((rawTo: any) => {
         const { modifiers } = rawTo;
         if (!modifiers) {
           delete rawTo.modifiers;
@@ -59,10 +52,12 @@ export function toSimple(builder) {
  */
 export function toSimpleProfile(rules: Builder | (Builder | Builder[])[]) {
   if (Array.isArray(rules)) {
-    return rules.flatMap(toSimple);
+    return rules.flatMap((r) =>
+      Array.isArray(r) ? toSimple(r) : toSimple([r])
+    );
   }
 
-  return toSimple(rules);
+  return toSimple([rules]);
 }
 
 /**
@@ -71,30 +66,4 @@ export function toSimpleProfile(rules: Builder | (Builder | Builder[])[]) {
  */
 export function toComplexProfile(rules: Builder[]) {
   return rules.flatMap(build);
-}
-
-export function writeExample() {
-  // ! Change '--dry-run' to your Karabiner-Elements Profile name.
-  // (--dry-run print the config json into console)
-  // + Create a new profile if needed.
-  writeToProfile('--dry-run', [
-    // It is not required, but recommended to put symbol alias to layers,
-    // (If you type fast, use simlayer instead, see https://evan-liu.github.io/karabiner.ts/rules/simlayer)
-    // to make it easier to write '←' instead of 'left_arrow'.
-    // Supported alias: https://github.com/evan-liu/karabiner.ts/blob/main/src/utils/key-alias.ts
-    layer('/', 'symbol-mode').manipulators([
-      //     / + [ 1    2    3    4    5 ] =>
-      withMapper(['⌘', '⌥', '⌃', '⇧', '⇪'])((k, i) =>
-        map((i + 1) as NumberKeyValue).toPaste(k)
-      ),
-      withMapper(['←', '→', '↑', '↓', '␣', '⏎', '⇥', '⎋', '⌫', '⌦', '⇪'])((k) =>
-        map(k).toPaste(k)
-      ),
-    ]),
-
-    rule('Key mapping').manipulators([
-      // config key mappings
-      map(1).to(1),
-    ]),
-  ]);
 }

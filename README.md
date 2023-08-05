@@ -9,7 +9,7 @@ Building on what's provided by [karabiner.ts](https://github.com/evan-liu/karabi
 
 [This post](https://www.scraggo.com/karabiner-ts-multi-profile/) goes more into my motivations for building this and has more general research on Karabiner-Elements.
 
-`karabiner.ts` deserves a shoutout for providing a fantastic developer experience. It allows you to concisely create modifications with auto-completion  thanks to very through TypeScript typings. Given that and it's high-level of parity with Karabiner features, I recommend it highly!
+`karabiner.ts` deserves a shoutout for providing a fantastic developer experience. It allows you to concisely create modifications with auto-completion thanks to very through TypeScript typings. Given that and it's high-level of parity with Karabiner features, I recommend it highly!
 
 Also check out [the other external Karabiner JSON generators](https://karabiner-elements.pqrs.org/docs/json/external-json-generators/).
 
@@ -22,6 +22,7 @@ Prerequisites:
 - Install [Karabiner-Elements](https://karabiner-elements.pqrs.org/)
 - In the Karabiner-Elements UI, create profiles with names that exactly match what you'll be writing
 - Optional: Get the `product_id` and `vendor_id` for any devices you'll want to modify
+  - Profile devices don't auto-generate, one workaround is to add a simple modification in the UI for that profile device
 - Fork this repo, run `npm install`
 
 Then, make customizations in the `my-config` directory.
@@ -42,7 +43,7 @@ You'd probably want to take some time to explore and make your modifications bef
 
 The majority of the files in the `my-config` directory utilize `karabiner.ts` to create simple modifications. Taking a look at `my-config/simple.ts` might be a good place to start.
 
-The `my-config/myconfig.ts` file uses what's in the `utils` directory to finalize modifications. Here's a sample that writes `caps_lock` to `escape`, my preferred function key assignments, and a complex modification that runs the karabiner cli to switch a profile:
+The `my-config/myconfig.ts` file uses what's in the `utils` directory to finalize modifications. Here's a reduced sample that writes `caps_lock` to `escape`, my preferred function key assignments, and a complex modification that runs the karabiner cli to switch a profile:
 
 ```ts
 import { toComplexProfile, toSimpleProfile } from '../utils/kts-wrappers';
@@ -52,54 +53,21 @@ import { func } from './func';
 import { selectLayerProfile } from './select-profile';
 import { capsToEscape } from './simple';
 
-export const DEVICES = {
-  appleSmall: { product_id: 541, vendor_id: 1452 },
+export const MY_DEVICE = { product_id: 541, vendor_id: 1452 };
+export const MY_DEVICE_PROFILE = {
+  profileName: 'Main',
+  deviceProps: MY_DEVICE,
 };
 
 export const configWriter = new Writer();
 
-export const alterProfile = (
-  profileName: string,
-  deviceProps: KarabinerProfileDevice['identifiers'],
-  simpleMods?: any[],
-  funcMods?: any[],
-  complexMods?: any[]
-) => {
-  if (simpleMods) {
-    configWriter.makeSimpleMods(
-      {
-        profileName,
-        deviceProps,
-      },
-      simpleMods
-    );
-  }
-
-  if (funcMods) {
-    configWriter.makeFunctionMods(
-      {
-        profileName,
-        deviceProps,
-      },
-      funcMods
-    );
-  }
-
-  if (complexMods) {
-    configWriter.makeComplexMods(
-      {
-        profileName,
-      },
-      complexMods
-    );
-  }
-};
-
-alterProfile(
-  'Main',
-  DEVICES.appleSmall,
-  toSimpleProfile(capsToEscape),
-  toSimpleProfile(func),
+configWriter.makeSimpleMods(MY_DEVICE_PROFILE, toSimpleProfile(capsToEscape));
+configWriter.makeFunctionMods(MY_DEVICE_PROFILE, toSimpleProfile(func));
+configWriter.makeComplexMods(
+  {
+    profileName: 'Main',
+    // all devices are affected
+  },
   toComplexProfile(selectLayerProfile)
 );
 ```
@@ -129,8 +97,6 @@ Note: There are limits on the capabilities of `simple_modifications`. Documentat
 ### Writer
 
 The `Writer` class (imported from `utils/writer.ts`) is used in lieu of `writeToProfile` provided by `karabiner.ts`. Initializing an instance of `Writer` puts your current Karabiner config into memory. The methods provided by an instance of `Writer` modify that instance - nothing is "saved" until one of the `write...` functions is called.
-
-The `alterProfile` function above is a convenience wrapper over a few `Writer` methods. It provides the ability to build a single profile with simple, function key, and complex modifications.
 
 After your modifications are in place, you'll probably want to test them out. Use `writeToFile` to output a JSON file to a given path:
 

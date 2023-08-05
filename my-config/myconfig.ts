@@ -14,6 +14,11 @@ export const DEVICES = {
 
 export const configWriter = new Writer();
 
+/**
+ * Convenience wrapper over a few `Writer` methods.
+ * Provides the ability to build a single profile with simple, function key, and
+ * complex modifications.
+ */
 const alterProfile = (
   profileName: string,
   deviceProps: KarabinerProfileDevice['identifiers'],

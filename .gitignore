@@ -1,4 +1,5 @@
 .DS_Store
 node_modules
-my-config/test-output
-old/
+
+# Remove this line if you want test-output files version-controlled
+my-config/test-output/[!.gitkeep]*

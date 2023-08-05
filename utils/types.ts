@@ -1,5 +1,5 @@
 import {
-  FromKeyCode as KTS_FromKeyCode,
+  FromEvent as KTS_FromEvent,
   FunctionKeyCode as KTS_FunctionKeyCode,
   DeviceIdentifier as KTS_DeviceIdentifier,
   KarabinerProfile as KTS_KarabinerProfile,
@@ -7,8 +7,8 @@ import {
 } from 'karabiner.ts';
 
 export interface KarabinerModsBase {
-  fn_function_keys: { from: KTS_FunctionKeyCode; to: any }[];
-  simple_modifications: { from: KTS_FromKeyCode }[];
+  fn_function_keys: { from: KTS_FunctionKeyCode }[];
+  simple_modifications: { from: KTS_FromEvent }[];
 }
 
 export type KarabinerProfileDevice = KarabinerModsBase & {
@@ -26,6 +26,6 @@ export type KarabinerProfile = KTS_KarabinerProfile & {
 };
 
 export interface KarabinerConfig {
-  global: Object;
+  global: object;
   profiles: KarabinerProfile[];
 }

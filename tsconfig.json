@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
-    "noImplicitAny": false
+    "noImplicitAny": true
   },
   "extends": "@tsconfig/node16/tsconfig.json",
-  "include": ["utils", "node_modules/karabiner.ts/dist/index.d.ts"]
+  "include": ["node_modules/karabiner.ts/dist/index.d.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "noImplicitAny": false
+    }
+  }
 }

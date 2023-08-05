@@ -11,7 +11,7 @@ import {
 } from './types';
 
 interface ProfileProps {
-  profileName: string;
+  profileName: KarabinerProfile['name'];
   deviceProps?: null | KarabinerProfileDevice['identifiers'];
 }
 
@@ -117,7 +117,11 @@ export class Writer {
     });
 
     if (!deviceProfile) {
-      throw new Error(`Profile for device not found: ${profileName}`);
+      throw new Error(
+        `Device for profile not found. profileName: ${profileName}, deviceProps: ${JSON.stringify(
+          deviceProps
+        )}`
+      );
     }
 
     return deviceProfile;

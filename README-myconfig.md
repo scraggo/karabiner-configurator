@@ -21,7 +21,7 @@ Karabiner: leave `Use F1, F2, etc as standard function keys` unchecked
 
 Useful:
 
-```
+```json
 "to": {
   "key_code": "mission_control"
 }

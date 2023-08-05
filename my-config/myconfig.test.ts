@@ -8,6 +8,7 @@ import { configWriter, DEVICES } from './myconfig';
 
 import { layerProfile, selectLayerProfile, PROFILES } from './select-profile';
 
+import { debuggerSteps } from './chrome-debug';
 import { func } from './func';
 import { mouse } from './mouse';
 import { nav } from './nav';
@@ -24,6 +25,7 @@ import { capsToEscape, windowsToMacKeys } from './simple';
   { name: 'nav', data: toSimpleProfile(nav) },
   { name: 'number', data: toSimpleProfile(number) },
   { name: 'capsToEscape', data: toSimpleProfile(capsToEscape) },
+  { name: 'debuggerSteps', data: toComplexProfile(debuggerSteps) },
   // { name: 'shiftLayer', data: shiftLayer },
   // { name: 'windowsToMacKeys', data: windowsToMacKeys },
 ].forEach(({ name, data }) => {
