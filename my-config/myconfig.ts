@@ -1,5 +1,5 @@
 import { toComplexProfile, toSimpleProfile } from '../utils/kts-wrappers';
-import { KarabinerProfileDevice } from '../utils/types';
+import { KarabinerProfile, KarabinerProfileDevice } from '../utils/types';
 import { Writer } from '../utils/writer';
 import { func } from './func';
 import { mouse } from './mouse';
@@ -20,74 +20,47 @@ export const configWriter = new Writer();
  * complex modifications.
  */
 const alterProfile = (
-  profileName: string,
-  deviceProps: KarabinerProfileDevice['identifiers'],
-  simpleMods?: any[],
-  funcMods?: any[],
-  complexMods?: any[]
+  profileName: KarabinerProfile['name'],
+  deviceProps: undefined | KarabinerProfileDevice['identifiers'],
+  mods: {
+    simple?: any[];
+    func?: any[];
+    complex?: any[];
+  }
 ) => {
-  if (simpleMods) {
-    configWriter.makeSimpleMods(
-      {
-        profileName,
-        deviceProps,
-      },
-      simpleMods
-    );
+  if (mods.simple) {
+    configWriter.makeSimpleMods(profileName, mods.simple, deviceProps);
   }
 
-  if (funcMods) {
-    configWriter.makeFunctionMods(
-      {
-        profileName,
-        deviceProps,
-      },
-      funcMods
-    );
+  if (mods.func) {
+    configWriter.makeFunctionMods(profileName, mods.func, deviceProps);
   }
 
-  if (complexMods) {
-    configWriter.makeComplexMods(
-      {
-        profileName,
-      },
-      complexMods
-    );
+  if (mods.complex) {
+    configWriter.makeComplexMods(profileName, mods.complex);
   }
 };
 
-alterProfile(
-  PROFILES.Main,
-  DEVICES.appleSmall,
-  toSimpleProfile(capsToEscape),
-  toSimpleProfile(func),
-  toComplexProfile(selectLayerProfile)
-);
+alterProfile(PROFILES.Main, DEVICES.appleSmall, {
+  simple: toSimpleProfile(capsToEscape),
+  func: toSimpleProfile(func),
+  complex: toComplexProfile(selectLayerProfile),
+});
 
-alterProfile(
-  PROFILES.Mouse,
-  DEVICES.appleSmall,
-  toSimpleProfile([capsToEscape, mouse]),
-  toSimpleProfile(func),
-  toComplexProfile(selectLayerProfile)
-);
+alterProfile(PROFILES.Mouse, DEVICES.appleSmall, {
+  simple: toSimpleProfile([capsToEscape, mouse]),
+  func: toSimpleProfile(func),
+  complex: toComplexProfile(selectLayerProfile),
+});
 
-alterProfile(
-  PROFILES.Number,
-  DEVICES.appleSmall,
-  toSimpleProfile([capsToEscape, number]),
-  toSimpleProfile(func),
-  toComplexProfile(selectLayerProfile)
-);
+alterProfile(PROFILES.Number, DEVICES.appleSmall, {
+  simple: toSimpleProfile([capsToEscape, number]),
+  func: toSimpleProfile(func),
+  complex: toComplexProfile(selectLayerProfile),
+});
 
-alterProfile(
-  PROFILES.Nav,
-  DEVICES.appleSmall,
-  toSimpleProfile([capsToEscape, nav]),
-  toSimpleProfile(func),
-  toComplexProfile(layerProfile)
-);
-
-// writer.backupRootConfig();
-// writer.writeToFile(testOutputPath);
-// writer.overwriteRootConfig();
+alterProfile(PROFILES.Nav, DEVICES.appleSmall, {
+  simple: toSimpleProfile([capsToEscape, nav]),
+  func: toSimpleProfile(func),
+  complex: toComplexProfile(layerProfile),
+});

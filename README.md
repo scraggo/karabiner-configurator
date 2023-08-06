@@ -47,27 +47,39 @@ The `my-config/myconfig.ts` file uses what's in the `utils` directory to finaliz
 
 ```ts
 import { toComplexProfile, toSimpleProfile } from '../utils/kts-wrappers';
-import { KarabinerProfileDevice } from '../utils/types';
 import { Writer } from '../utils/writer';
 import { func } from './func';
 import { selectLayerProfile } from './select-profile';
 import { capsToEscape } from './simple';
 
-export const MY_DEVICE = { product_id: 541, vendor_id: 1452 };
-export const MY_DEVICE_PROFILE = {
-  profileName: 'Main',
-  deviceProps: MY_DEVICE,
-};
+export const MY_DEVICE = { product_id: 24, vendor_id: 42 };
+export const MY_PROFILE_NAME = 'Main';
 
 export const configWriter = new Writer();
 
-configWriter.makeSimpleMods(MY_DEVICE_PROFILE, toSimpleProfile(capsToEscape));
-configWriter.makeFunctionMods(MY_DEVICE_PROFILE, toSimpleProfile(func));
+/**
+ * Modify keys only for MY_DEVICE
+ */
+configWriter.makeSimpleMods(
+  MY_PROFILE_NAME,
+  toSimpleProfile(capsToEscape),
+  MY_DEVICE
+);
+
+/**
+ * Modify keys only for MY_DEVICE
+ */
+configWriter.makeFunctionMods(
+  MY_PROFILE_NAME,
+  toSimpleProfile(func),
+  MY_DEVICE
+);
+
+/**
+ * complex_modifications apply to all devices
+ */
 configWriter.makeComplexMods(
-  {
-    profileName: 'Main',
-    // all devices are affected
-  },
+  MY_PROFILE_NAME,
   toComplexProfile(selectLayerProfile)
 );
 ```
