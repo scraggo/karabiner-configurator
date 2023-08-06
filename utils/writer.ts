@@ -57,14 +57,14 @@ profiles[] > {} > devices[] > {} > fn_function_keys{}
 const modifyAt = {
   [KEY_MOD_SIMPLE]: (
     profile: KarabinerProfile | KarabinerProfileDevice,
-    keysToWrite: Object[]
+    keysToWrite: object[]
   ) => {
     profile[KEY_MOD_SIMPLE] = keysToWrite;
   },
 
   [KEY_MOD_FN]: (
     profile: KarabinerProfile | KarabinerProfileDevice,
-    keysToWrite: Object[]
+    keysToWrite: object[]
   ) => {
     profile[KEY_MOD_FN] = keysToWrite;
   },
@@ -127,9 +127,13 @@ export class Writer {
     return deviceProfile;
   }
 
+  /**
+   * Include `deviceProps` if only modifying keys for device
+   */
   makeSimpleMods(
-    { profileName, deviceProps }: ProfileProps,
-    simpleKeys: KarabinerModsBase['simple_modifications']
+    profileName: KarabinerProfile['name'],
+    simpleKeys: KarabinerModsBase['simple_modifications'],
+    deviceProps?: KarabinerProfileDevice['identifiers']
   ) {
     const profile = deviceProps
       ? this.findDeviceProfileByNameAndDeviceInfo(profileName, deviceProps)
@@ -138,9 +142,13 @@ export class Writer {
     return modifyAt[KEY_MOD_SIMPLE](profile, simpleKeys);
   }
 
+  /**
+   * Include `deviceProps` if only modifying keys for device
+   */
   makeFunctionMods(
-    { profileName, deviceProps }: ProfileProps,
-    funcKeys: KarabinerModsBase['fn_function_keys']
+    profileName: KarabinerProfile['name'],
+    funcKeys: KarabinerModsBase['fn_function_keys'],
+    deviceProps?: KarabinerProfileDevice['identifiers']
   ) {
     const profile = deviceProps
       ? this.findDeviceProfileByNameAndDeviceInfo(profileName, deviceProps)
@@ -150,7 +158,7 @@ export class Writer {
   }
 
   makeComplexMods(
-    { profileName }: ProfileProps,
+    profileName: KarabinerProfile['name'],
     complexKeys: KarabinerComplexRule[]
   ) {
     return modifyAt[KEY_MOD_COMPLEX](
